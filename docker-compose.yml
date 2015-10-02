@@ -1,0 +1,26 @@
+# rabbit:
+#     image: rabbitmq
+#     ports:
+#         - "5672:5672"
+db:
+    image: postgres
+    ports:
+        - "5432:5432"
+flyway:
+    image: projectweekend/flyway
+    volumes:
+        - ./local_migrate.sh:/src/local_migrate.sh
+        - ./sql:/opt/flyway-3.2.1/sql/
+    links:
+        - db
+sockets:
+    build: .
+    command: go run main.go
+    volumes:
+        - ./app:/go/src/app
+    ports:
+        - "9000:9000"
+    # links:
+    #     - rabbit
+    environment:
+        - SECRET_KEY=secret
