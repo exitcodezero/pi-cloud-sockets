@@ -1,4 +1,4 @@
-CREATE FUNCTION sp_app_user_insert
+CREATE FUNCTION sp_api_users_insert
 (
     userEmail       TEXT,
     userPassword    TEXT
@@ -13,7 +13,7 @@ $$
 BEGIN
     RETURN      QUERY
     WITH inserted AS (
-        INSERT INTO     app_users
+        INSERT INTO     api_users
                         (
                             email,
                             password
@@ -22,10 +22,11 @@ BEGIN
                             userEmail,
                             userPassword
                         )
-        RETURNING       app_users.id,
-                        app_users.email,
-                        app_users.is_active,
-                        app_users.is_admin
+        RETURNING       api_users.id,
+                        api_users.email,
+                        api_users.is_active,
+                        api_users.is_admin,
+                        api_users.created_at
     )
     SELECT      ROW_TO_JSON(inserted.*)
     FROM        inserted;
