@@ -9,9 +9,7 @@ app:
         - ./app:/go/src/app
     ports:
         - "9000:9000"
-    links:
-        - db
+    # links:
         # - rabbit
     environment:
-        - SECRET_KEY=secret
         - API_KEY=secretapikey
