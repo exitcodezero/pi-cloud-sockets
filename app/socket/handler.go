@@ -3,6 +3,7 @@ package socket
 import (
     "net/http"
     "github.com/gorilla/websocket"
+    "app/rabbit"
 )
 
 type socketMessage struct {
@@ -20,6 +21,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
         panic(err)
 	}
 	defer c.Close()
+
+    ch, err := rabbit.Conn.Channel()
+    if err != nil {
+        panic(err)
+    }
+    defer ch.Close()
 
     for {
         message := socketMessage{}
