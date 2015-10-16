@@ -6,9 +6,9 @@ import (
     "app/message"
 )
 
-func writeSocket(c *websocket.Conn, pub chan message.SocketMessage)  {
+func writeSocket(c *websocket.Conn, rec chan message.SocketMessage)  {
     for {
-        message := <- pub
+        message := <- rec
         log.Println(message)
         err := c.WriteJSON(&message)
         if err != nil {

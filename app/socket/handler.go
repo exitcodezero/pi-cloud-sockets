@@ -1,9 +1,11 @@
 package socket
 
 import (
+    "time"
     "net/http"
     "github.com/gorilla/websocket"
     "app/hub"
+    "app/message"
 )
 
 var upgrader = websocket.Upgrader{}
@@ -16,8 +18,28 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
-    go writeSocket(c, hub.Published)
+    received := make(chan message.SocketMessage)
 
-    readSocket(c, hub.Published)
+    // all messages pushed to the 'received' channel are written out to the socket
+    go writeSocket(c, received)
+
+    // handle all incoming messages from the socket
+    for {
+        message := message.SocketMessage{}
+        message.CreatedAt = time.Now().UTC()
+
+		err := c.ReadJSON(&message)
+		if err != nil {
+			panic(err)
+		}
+
+        if message.Action == "publish" {
+            hub.Published <- message
+        }
+
+        if message.Action == "subscribe" {
+            hub.Subscribed[message.Event] = append(hub.Subscribed[message.Event], received)
+        }
+	}
 
 }
