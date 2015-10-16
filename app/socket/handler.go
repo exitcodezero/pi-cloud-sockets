@@ -3,13 +3,8 @@ package socket
 import (
     "net/http"
     "github.com/gorilla/websocket"
+    "app/hub"
 )
-
-type socketMessage struct {
-    Action string `json:"action"`
-    Event string `json:"event"`
-    Data string `json:"data"`
-}
 
 var upgrader = websocket.Upgrader{}
 
@@ -21,17 +16,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
-    for {
-        message := socketMessage{}
+    go writeSocket(c, hub.Published)
 
-		err := c.ReadJSON(&message)
-		if err != nil {
-			panic(err)
-		}
+    readSocket(c, hub.Published)
 
-		err = c.WriteJSON(&message)
-		if err != nil {
-			panic(err)
-		}
-	}
 }
