@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"app/config"
@@ -13,13 +14,14 @@ func init()  {
 }
 
 func main() {
+	host := fmt.Sprintf("0.0.0.0:%s", config.Port)
 	if config.UseTSL == "" {
-		err := http.ListenAndServe("0.0.0.0:9000", nil)
+		err := http.ListenAndServe(host, nil)
 		if err != nil {
 			log.Fatal("ListenAndServe: ", err)
 		}
 	} else {
-		err := http.ListenAndServeTLS("0.0.0.0:9000", config.CertFile, config.KeyFile, nil)
+		err := http.ListenAndServeTLS(host, config.CertFile, config.KeyFile, nil)
 		if err != nil {
 			log.Fatal("ListenAndServeTLS: ", err)
 		}
