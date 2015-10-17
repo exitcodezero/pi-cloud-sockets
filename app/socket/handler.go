@@ -18,12 +18,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
+    // each socket connection has a 'received' channel
     received := make(chan message.SocketMessage)
 
-    // all messages pushed to the 'received' channel are written out to the socket
+    // all messages pushed to the 'received' channel
+    // are written out to the socket
     go writeSocket(c, received)
 
-    // handle all incoming messages from the socket
+    // read incoming messages from the socket
     for {
         message := message.SocketMessage{}
         message.CreatedAt = time.Now().UTC()
