@@ -22,8 +22,10 @@ func processSubscriptions(pub chan message.SocketMessage, sub map[string][]chan 
     }
 }
 
-func init()  {
+func init() {
     Published = make(chan message.SocketMessage)
     Subscribed = make(map[string][]chan message.SocketMessage)
-    go processSubscriptions(Published, Subscribed)
+    for i := 0; i < 5; i++ {
+        go processSubscriptions(Published, Subscribed)
+    }
 }
