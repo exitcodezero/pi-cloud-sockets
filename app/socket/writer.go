@@ -7,6 +7,7 @@ import (
 )
 
 func writeSocket(c *websocket.Conn, rec chan message.SocketMessage)  {
+    defer c.Close()
     for {
         message := <- rec
         log.Println(message)
