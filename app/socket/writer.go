@@ -5,10 +5,10 @@ import (
     "app/message"
 )
 
-func writeSocket(c *websocket.Conn, rec chan message.SocketMessage)  {
+func writeSocket(c *websocket.Conn, out chan message.SocketMessage)  {
     defer c.Close()
     for {
-        message := <- rec
+        message := <- out
         err := c.WriteJSON(&message)
         if err != nil {
         	panic(err)

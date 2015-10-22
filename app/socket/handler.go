@@ -18,14 +18,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer c.Close()
 
-    // each socket connection has a 'received' channel
-    received := make(chan message.SocketMessage)
+    out := make(chan message.SocketMessage)
 
-    // all messages pushed to the 'received' channel
-    // are written out to the socket
-    go writeSocket(c, received)
+    go writeSocket(c, out)
 
-    // read incoming messages from the socket
     for {
         m := message.SocketMessage{}
         m.CreatedAt = time.Now().UTC()
@@ -37,7 +33,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
         }
 
         if m.Action == "subscribe" {
-            hub.Subscribed[m.Event] = append(hub.Subscribed[m.Event], received)
+            hub.Subscribed[m.Event] = append(hub.Subscribed[m.Event], out)
         }
 	}
 
