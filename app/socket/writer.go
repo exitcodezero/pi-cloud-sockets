@@ -8,10 +8,7 @@ import (
 func writeSocket(c *websocket.Conn, out chan message.SocketMessage)  {
     defer c.Close()
     for {
-        message := <- out
-        err := c.WriteJSON(&message)
-        if err != nil {
-        	panic(err)
-        }
+        m := <- out
+        c.WriteJSON(&m)
     }
 }

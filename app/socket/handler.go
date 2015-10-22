@@ -26,7 +26,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
         m := message.SocketMessage{}
         m.CreatedAt = time.Now().UTC()
 
-		_ = c.ReadJSON(&m)
+		c.ReadJSON(&m)
 
         if m.Action == "publish" {
             hub.Published <- m
