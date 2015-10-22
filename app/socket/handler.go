@@ -12,21 +12,21 @@ var upgrader = websocket.Upgrader{}
 
 // Handler handles websocket connections at /ws
 func Handler(w http.ResponseWriter, r *http.Request) {
-    c, err := upgrader.Upgrade(w, r, nil)
+    socket, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
         panic(err)
 	}
-	defer c.Close()
+	defer socket.Close()
 
     out := make(chan message.SocketMessage)
 
-    go writeSocket(c, out)
+    go writeSocket(socket, out)
 
     for {
         m := message.SocketMessage{}
         m.CreatedAt = time.Now().UTC()
 
-		c.ReadJSON(&m)
+		socket.ReadJSON(&m)
 
         if m.Action == "publish" {
             hub.Published <- m
