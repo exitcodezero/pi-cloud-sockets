@@ -27,20 +27,20 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
     // read incoming messages from the socket
     for {
-        message := message.SocketMessage{}
-        message.CreatedAt = time.Now().UTC()
+        m := message.SocketMessage{}
+        m.CreatedAt = time.Now().UTC()
 
-		err := c.ReadJSON(&message)
+		err := c.ReadJSON(&m)
 		if err != nil {
 			panic(err)
 		}
 
-        if message.Action == "publish" {
-            hub.Published <- message
+        if m.Action == "publish" {
+            hub.Published <- m
         }
 
-        if message.Action == "subscribe" {
-            hub.Subscribed[message.Event] = append(hub.Subscribed[message.Event], received)
+        if m.Action == "subscribe" {
+            hub.Subscribed[m.Event] = append(hub.Subscribed[m.Event], received)
         }
 	}
 
