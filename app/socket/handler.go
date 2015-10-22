@@ -10,6 +10,14 @@ import (
 
 var upgrader = websocket.Upgrader{}
 
+func writeSocket(socket *websocket.Conn, c hub.Connection)  {
+    defer socket.Close()
+    for {
+        m := <- c.Out
+        socket.WriteJSON(&m)
+    }
+}
+
 // Handler handles websocket connections at /ws
 func Handler(w http.ResponseWriter, r *http.Request) {
     socket, err := upgrader.Upgrade(w, r, nil)
@@ -18,9 +26,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer socket.Close()
 
-    out := make(chan message.SocketMessage)
+    c := hub.NewConnection()
 
-    go writeSocket(socket, out)
+    go writeSocket(socket, c)
 
     for {
         m := message.SocketMessage{}
@@ -29,12 +37,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		socket.ReadJSON(&m)
 
         if m.Action == "publish" {
-            hub.Published <- m
+            hub.Publish(m)
         }
 
         if m.Action == "subscribe" {
-            hub.Subscribed[m.Event] = append(hub.Subscribed[m.Event], out)
+            hub.Subscribe(m.Event, c)
         }
 	}
-
 }
