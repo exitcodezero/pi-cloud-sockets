@@ -30,10 +30,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
         m := message.SocketMessage{}
         m.CreatedAt = time.Now().UTC()
 
-		err := c.ReadJSON(&m)
-		if err != nil {
-			panic(err)
-		}
+		_ = c.ReadJSON(&m)
 
         if m.Action == "publish" {
             hub.Published <- m
