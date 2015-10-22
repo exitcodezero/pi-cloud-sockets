@@ -32,13 +32,16 @@ func Publish(m message.SocketMessage) {
 
 // Subscribe adds a Connection to an array for the event key
 func Subscribe(event string, c Connection)  {
-    existing := findConnectionIndex(c, subscribed[event])
-    if existing == -1 {
+    i := findConnectionIndex(c, subscribed[event])
+    if i == -1 {
         subscribed[event] = append(subscribed[event], c)
     }
 }
 
 // Unsubscribe removes a Connection from the array for the event key
 func Unsubscribe(event string, c Connection) {
-    findConnectionIndex(c, subscribed[event])
+    i := findConnectionIndex(c, subscribed[event])
+    if i != -1 {
+        subscribed[event] = append(subscribed[event][:i], subscribed[event][i+1:]...)
+    }
 }
