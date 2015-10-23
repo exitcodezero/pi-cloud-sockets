@@ -36,19 +36,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		socket.ReadJSON(&m)
 
-        if m.Action == "publish" {
+        switch m.Action {
+        case "publish":
             hub.Publish(m)
-        }
-
-        if m.Action == "subscribe" {
+        case "subscribe":
             hub.Subscribe(m.Event, c)
-        }
-
-        if m.Action == "unsubscribe" {
+        case "unsubscribe":
             hub.Unsubscribe(m.Event, c)
-        }
-
-        if m.Action == "unsubscribe:all" {
+        case "unsubscribe:all":
             hub.UnsubscribeAll(c)
         }
 	}
