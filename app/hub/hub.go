@@ -45,3 +45,10 @@ func Unsubscribe(event string, c Connection) {
         subscribed[event] = append(subscribed[event][:i], subscribed[event][i+1:]...)
     }
 }
+
+// UnsubscribeAll removes a Connection from all event arrays
+func UnsubscribeAll(c Connection)  {
+    for e := range subscribed {
+        Unsubscribe(e, c)
+    }
+}

@@ -47,5 +47,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
         if m.Action == "unsubscribe" {
             hub.Unsubscribe(m.Event, c)
         }
+
+        if m.Action == "unsubscribe:all" {
+            hub.UnsubscribeAll(c)
+        }
 	}
 }
