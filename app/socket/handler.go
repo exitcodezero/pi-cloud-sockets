@@ -27,6 +27,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	defer socket.Close()
 
     c := hub.NewConnection()
+    defer hub.UnsubscribeAll(c)
 
     go writeSocket(socket, c)
 
