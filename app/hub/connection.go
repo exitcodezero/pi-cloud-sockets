@@ -20,13 +20,3 @@ func NewConnection() Connection {
     hc.Out = make(chan message.SocketMessage)
     return hc
 }
-
-// // CleanUp will remove references to the Connection in the
-// // map of subscribers
-// func (hc *Connection) CleanUp(m map[string][]string)  {
-//     for _, e := range hc.Subscribed {
-//         for _, c := range m[e] {
-//
-//         }
-//     }
-// }
