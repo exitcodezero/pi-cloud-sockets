@@ -15,7 +15,7 @@ func init()  {
 
 func main() {
 	host := fmt.Sprintf("0.0.0.0:%s", config.Port)
-	if config.UseTSL == "" {
+	if config.UseTLS == "" {
 		err := http.ListenAndServe(host, nil)
 		if err != nil {
 			log.Fatal("ListenAndServe: ", err)

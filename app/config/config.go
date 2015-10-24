@@ -7,8 +7,8 @@ import (
 // APIKey is the env variable API_KEY
 var APIKey = os.Getenv("API_KEY")
 
-// UseTSL is the env variable USE_TSL
-var UseTSL = os.Getenv("USE_TSL")
+// UseTLS is the env variable USE_TLS
+var UseTLS = os.Getenv("USE_TLS")
 
 // KeyFile is the env variable KEY_FILE
 var KeyFile = os.Getenv("KEY_FILE")
