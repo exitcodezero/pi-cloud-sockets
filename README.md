@@ -1,5 +1,7 @@
-pi-cloud-sockets
+picloud
 ====================
+
+A websocket server for simple Raspberry Pi pub/sub.
 
 Environment Variables
 ====================
