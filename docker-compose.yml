@@ -10,5 +10,4 @@ app:
 deploy:
     image: projectweekend/fabric
     volumes:
-        - ./fabfile.py:/deploy/fabfile.py
-        - ./app/app:/deploy/app
+        - ./deploy:/deploy
