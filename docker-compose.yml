@@ -7,3 +7,8 @@ app:
         - "9000:9000"
     environment:
         - API_KEY=secretapikey
+deploy:
+    image: projectweekend/fabric
+    volumes:
+        - ./fabfile.py:/deploy/fabfile.py
+        - ./app/app:/deploy/app
