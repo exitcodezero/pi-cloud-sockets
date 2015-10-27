@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Picloud by exitcodezero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Picloud</h1>
+      <h2 class="project-tagline">A websocket server for simple Raspberry Pi pub/sub.</h2>
+      <a href="https://github.com/exitcodezero/picloud" class="btn">View on GitHub</a>
+      <a href="https://github.com/exitcodezero/picloud/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/exitcodezero/picloud/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="picloud" class="anchor" href="#picloud" aria-hidden="true"><span class="octicon octicon-link"></span></a>picloud</h1>
+
+<p>A websocket server for simple Raspberry Pi pub/sub.</p>
+
+<h1>
+<a id="environment-variables" class="anchor" href="#environment-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Environment Variables</h1>
+
+<ul>
+<li>
+<code>PORT</code> - Port for server. Defaults to <code>9000</code>
+</li>
+<li>
+<code>API_KEY</code> - API Key used for authenticated requests. Passed via <code>X-API-Key</code> header.</li>
+<li>
+<code>USE_TLS</code> - Set this variable to enable TLS</li>
+<li>
+<code>KEY_FILE</code> - Path to TLS key file</li>
+<li>
+<code>CERT_FILE</code> - Path to TLS cert file</li>
+<li>
+<code>DEPLOY_USER</code> - User for SSH connection (Fabric deployment only)</li>
+<li>
+<code>DEPLOY_HOST</code> - Host for SSH connection (Fabric deployment only)</li>
+</ul>
+
+<h1>
+<a id="messages" class="anchor" href="#messages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Messages</h1>
+
+<h3>
+<a id="subscribe-to-an-event" class="anchor" href="#subscribe-to-an-event" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subscribe to an event</h3>
+
+<p>Send the following JSON message to <strong>subscribe</strong> to an event. After subscribing, your connection will receive data from any other connection that publishes that event.</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>subscribe<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>event<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>whatever<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<h3>
+<a id="publish-data-for-an-event" class="anchor" href="#publish-data-for-an-event" aria-hidden="true"><span class="octicon octicon-link"></span></a>Publish data for an event</h3>
+
+<p>Send the following JSON message to <strong>publish</strong> data for an event. Any connection that has subscribed to this event will receive this JSON message.</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>action<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>publish<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>event<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>whatever<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>data<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>howdy<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<h1>
+<a id="compile-with-docker" class="anchor" href="#compile-with-docker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Compile with Docker</h1>
+
+<pre><code>docker run --rm -it -v $PWD/app/:/go/src/app -w /go/src/app golang:1.5 /bin/bash
+</code></pre>
+
+<pre><code>go get &amp;&amp; go build -v
+</code></pre>
+
+<p>The new binary named <code>app</code> can be found in the <code>/app</code> directory.</p>
+
+<h1>
+<a id="deploy-with-fabric" class="anchor" href="#deploy-with-fabric" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deploy with Fabric</h1>
+
+<p><code>Fabfile.py</code> is located in <code>/deploy</code></p>
+
+<pre><code>fab deploy
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/exitcodezero/picloud">Picloud</a> is maintained by <a href="https://github.com/exitcodezero">exitcodezero</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
