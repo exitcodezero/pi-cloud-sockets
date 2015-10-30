@@ -27,8 +27,14 @@ Environment Variables
 
 
 
-Messages
+Socket Messages
 ====================
+
+### Websocket route
+
+```
+/connection
+```
 
 ### Subscribe to an event
 
@@ -52,3 +58,31 @@ Send the following JSON message to **publish** data for an event. Any connection
     "data": "howdy"
 }
 ```
+
+
+
+HTTP Routes
+====================
+
+### Publish data
+
+**POST:**
+```
+/publish
+```
+
+**Body:**
+```json
+{
+    "event": "whatever",
+    "data": "howdy"
+}
+```
+
+**Response:** None
+
+
+**Status Codes:**
+* `201` if successful
+* `400` if incorrect data provided
+* `401` if invalid `X-API-Key`
