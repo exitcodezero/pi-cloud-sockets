@@ -8,8 +8,6 @@ A websocket server for simple Raspberry Pi pub/sub.
 Build and deploy with Fabric
 ====================
 
-`Fabfile.py` is located in `/deploy`
-
 ```
 fab build_deploy
 ```
