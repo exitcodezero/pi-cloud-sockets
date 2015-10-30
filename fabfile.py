@@ -14,9 +14,13 @@ env.hosts = [DEPLOY_HOST]
 env.user = DEPLOY_USER
 
 
+def build_local():
+    local('docker-compose run app go build -v')
+    local('mv app/app ./application')
+
+
 def copy_app():
-    cmd = 'scp app {0}@{1}:/home/{0}'.format(DEPLOY_USER, DEPLOY_HOST)
-    local(cmd)
+    local('scp application {0}@{1}:/home/{0}'.format(DEPLOY_USER, DEPLOY_HOST))
 
 
 def stop_service():
@@ -29,7 +33,7 @@ def remove_old_app():
 
 
 def rename_new_app():
-    run('mv app pi-cloud')
+    run('mv application pi-cloud')
 
 
 def start_service():
@@ -42,3 +46,8 @@ def deploy():
     remove_old_app()
     rename_new_app()
     start_service()
+
+
+def build_deploy():
+    build_local()
+    deploy()
