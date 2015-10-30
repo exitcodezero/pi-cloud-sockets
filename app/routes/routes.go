@@ -18,7 +18,7 @@ func Router() *mux.Router  {
 	}
 
     router := mux.NewRouter()
-	router.Handle("/ws", socketHandlers)
+	router.Handle("/connect", socketHandlers)
 
     return router
 }
