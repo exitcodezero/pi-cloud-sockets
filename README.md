@@ -5,28 +5,13 @@ A websocket server for simple Raspberry Pi pub/sub.
 
 
 
-Compile with Docker
-====================
-
-```
-docker run --rm -it -v $PWD/app/:/go/src/app -w /go/src/app golang:1.5 /bin/bash
-```
-
-```
-go get && go build -v
-```
-
-The new binary named `app` can be found in the `/app` directory.
-
-
-
-Deploy with Fabric
+Build and deploy with Fabric
 ====================
 
 `Fabfile.py` is located in `/deploy`
 
 ```
-fab deploy
+fab build_deploy
 ```
 
 
