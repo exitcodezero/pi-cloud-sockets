@@ -9,7 +9,7 @@ Build and deploy with Fabric
 ====================
 
 ```
-fab build_deploy
+fab --user=username --hosts=remote_hostname build_deploy
 ```
 
 
