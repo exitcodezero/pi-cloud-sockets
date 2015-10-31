@@ -8,7 +8,11 @@ import (
     "app/message"
 )
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+    CheckOrigin: func(r *http.Request) bool {
+        return true
+    },
+}
 
 func writeSocket(socket *websocket.Conn, c hub.Connection)  {
     defer socket.Close()
