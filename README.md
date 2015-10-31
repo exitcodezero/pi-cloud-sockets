@@ -1,4 +1,4 @@
-picloud
+PiCloud
 ====================
 
 A websocket server for simple Raspberry Pi pub/sub.
@@ -18,7 +18,7 @@ Environment Variables
 ====================
 
 * `PORT` - Port for server. Defaults to `9000`
-* `API_KEY` - API Key used for authenticated requests. Passed via `X-API-Key` header.
+* `API_KEY` - API Key required for authenticated requests.
 * `USE_TLS` - Set this variable to enable TLS
 * `KEY_FILE` - Path to TLS key file
 * `CERT_FILE` - Path to TLS cert file
@@ -27,10 +27,12 @@ Environment Variables
 
 
 
-Socket Messages
+Websocket
 ====================
 
 ### Websocket route
+
+This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter.
 
 ```
 /connection
