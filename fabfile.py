@@ -1,17 +1,5 @@
-import os
 from fabric.api import env, run, local, sudo, settings
 from fabric.contrib.console import confirm
-
-
-DEPLOY_HOST = os.getenv('DEPLOY_HOST')
-assert DEPLOY_HOST
-
-DEPLOY_USER = os.getenv('DEPLOY_USER')
-assert DEPLOY_USER
-
-
-env.hosts = [DEPLOY_HOST]
-env.user = DEPLOY_USER
 
 
 def build_local():
@@ -20,7 +8,7 @@ def build_local():
 
 
 def copy_app():
-    local('scp application {0}@{1}:/home/{0}'.format(DEPLOY_USER, DEPLOY_HOST))
+    local('scp application {0}@{1}:/home/{0}'.format(env.user, env.hosts[0]))
 
 
 def stop_service():
