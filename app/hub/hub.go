@@ -20,9 +20,7 @@ func processSubscriptions(pub chan message.SocketMessage, sub map[string][]Conne
 func init() {
     publish = make(chan message.SocketMessage)
     subscribed = make(map[string][]Connection)
-    for i := 0; i < 5; i++ {
-        go processSubscriptions(publish, subscribed)
-    }
+    go processSubscriptions(publish, subscribed)
 }
 
 // Publish adds a SocketMessage to the Publish channel
