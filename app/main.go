@@ -1,16 +1,16 @@
 package main
 
 import (
+	"app/config"
+	"app/routes"
 	"fmt"
 	"log"
 	"net/http"
-	"app/config"
-	"app/routes"
 )
 
-func init()  {
+func init() {
 	router := routes.Router()
-    http.Handle("/", router)
+	http.Handle("/", router)
 }
 
 func main() {

@@ -1,7 +1,7 @@
 package config
 
 import (
-    "os"
+	"os"
 )
 
 // APIKey is the env variable API_KEY
@@ -19,10 +19,10 @@ var CertFile = os.Getenv("CERT_FILE")
 // Port is the env variable PORT
 var Port string
 
-func init()  {
-    if os.Getenv("PORT") != "" {
-        Port = os.Getenv("PORT")
-    } else {
-        Port = "9000"
-    }
+func init() {
+	if os.Getenv("PORT") != "" {
+		Port = os.Getenv("PORT")
+	} else {
+		Port = "9000"
+	}
 }
