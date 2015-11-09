@@ -3,10 +3,13 @@ package main
 import (
 	"app/config"
 	"app/routes"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
 )
+
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
 
 func init() {
 	router := routes.Router()
@@ -14,6 +17,16 @@ func init() {
 }
 
 func main() {
+	flag.Parse()
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
+
 	host := fmt.Sprintf("0.0.0.0:%s", config.Port)
 	if config.UseTLS == "" {
 		err := http.ListenAndServe(host, nil)
