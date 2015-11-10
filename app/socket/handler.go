@@ -15,7 +15,6 @@ var upgrader = websocket.Upgrader{
 }
 
 func writeSocket(socket *websocket.Conn, c hub.Connection) {
-	defer socket.Close()
 	for {
 		m := <-c.Out
 		socket.WriteJSON(&m)
