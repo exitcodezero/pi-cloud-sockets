@@ -38,7 +38,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		m := message.SocketMessage{}
 		m.CreatedAt = time.Now().UTC()
 
-		socket.ReadJSON(&m)
+		err = socket.ReadJSON(&m)
+		if err != nil {
+			break
+		}
 
 		switch m.Action {
 		case "publish":
