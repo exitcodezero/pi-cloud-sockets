@@ -1,22 +1,22 @@
 package hub
 
 import (
-    "github.com/pborman/uuid"
-    "app/message"
+	"app/message"
+	"github.com/pborman/uuid"
 )
 
 // Connection maintains info about the connected device
 // and subscribed events
 type Connection struct {
-    ID          string
-    Subscribed  []string
-    Out         chan message.SocketMessage
+	ID         string
+	Subscribed []string
+	Out        chan message.SocketMessage
 }
 
 // NewConnection constructs a new Connection
 func NewConnection() Connection {
-    hc := Connection{}
-    hc.ID = uuid.New()
-    hc.Out = make(chan message.SocketMessage)
-    return hc
+	hc := Connection{}
+	hc.ID = uuid.New()
+	hc.Out = make(chan message.SocketMessage)
+	return hc
 }
