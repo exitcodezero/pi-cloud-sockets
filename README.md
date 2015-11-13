@@ -35,7 +35,7 @@ Websocket
 This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter.
 
 ```
-/connection
+/connect
 ```
 
 ### Subscribe to an event

@@ -21,7 +21,7 @@ func writeSocket(socket *websocket.Conn, c hub.Connection) {
 	}
 }
 
-// Handler handles websocket connections at /ws
+// Handler handles websocket connections at /connect
 func Handler(w http.ResponseWriter, r *http.Request) {
 	socket, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
