@@ -1,8 +1,8 @@
 package socket
 
 import (
-	"app/hub"
-	"app/message"
+	"github.com/exitcodezero/picloud/hub"
+	"github.com/exitcodezero/picloud/message"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"time"

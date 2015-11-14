@@ -1,8 +1,8 @@
 package main
 
 import (
-	"app/config"
-	"app/routes"
+	"github.com/exitcodezero/picloud/config"
+	"github.com/exitcodezero/picloud/routes"
 	"flag"
 	"fmt"
 	"log"

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"app/config"
+	"github.com/exitcodezero/picloud/config"
 	"net/http"
 )
 

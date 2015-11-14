@@ -1,7 +1,7 @@
 package hub
 
 import (
-	"app/message"
+	"github.com/exitcodezero/picloud/message"
 	"github.com/pborman/uuid"
 )
 

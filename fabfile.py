@@ -8,7 +8,7 @@ assert env.password
 
 def build_local():
     local('docker-compose run app go build -v')
-    local('mv app/app ./application')
+    local('mv app/picloud ./application')
 
 
 def copy_app():
