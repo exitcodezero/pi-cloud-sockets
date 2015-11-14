@@ -1,6 +1,7 @@
 build:
   image: golang
   commands:
+      - apt-get update
       - apt-get -y install fabric
       - go get
       - go build
