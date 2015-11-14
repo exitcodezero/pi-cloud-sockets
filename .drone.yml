@@ -3,7 +3,6 @@ build:
     commands:
         - apt-get update
         - apt-get -y install fabric
-        - cd app
-        - pwd
+        - cd /drone/src/app
         - go get
         - go build
