@@ -6,7 +6,7 @@ build:
         - go get
         - go build
 deploy:
-    bash:
-        image: projectweekend/drone-bash
+    fabric:
+        image: projectweekend/drone-fabric
         commands:
-            - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
+            - --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
