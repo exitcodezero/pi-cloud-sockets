@@ -5,16 +5,6 @@ build:
         - apt-get -y install fabric
         - go get
         - go build
-
-plugin:
-  name: Bash
-  desc: Execute bash commands for deployment
-  type: deploy
-  image: projectweekend/drone-bash
-  labels:
-    - deployment
-    - bash
-
 deploy:
     bash:
         image: projectweekend/drone-bash
