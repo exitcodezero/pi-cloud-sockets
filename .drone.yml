@@ -17,5 +17,6 @@ plugin:
 
 deploy:
     bash:
+        image: projectweekend/drone-bash
         commands:
             - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
