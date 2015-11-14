@@ -6,7 +6,7 @@ build:
         - go get
         - go build
 deploy:
-    bash:
+    plugin:
         image: projectweekend/drone-bash
         commands:
             - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
