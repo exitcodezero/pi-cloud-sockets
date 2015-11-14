@@ -6,5 +6,6 @@ build:
         - go get
         - go build
 deploy:
-    commands:
-        - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
+    ssh:
+        commands:
+            - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
