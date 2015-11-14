@@ -3,7 +3,7 @@ build:
     commands:
         - apt-get update
         - apt-get -y install fabric
-        - ls
         - cd app
+        - pwd
         - go get
         - go build
