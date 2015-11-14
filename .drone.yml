@@ -5,8 +5,17 @@ build:
         - apt-get -y install fabric
         - go get
         - go build
+
+plugin:
+  name: Bash
+  desc: Execute bash commands for deployment
+  type: deploy
+  image: projectweekend/drone-bash
+  labels:
+    - deployment
+    - bash
+
 deploy:
-    plugin:
-        image: projectweekend/drone-bash
+    bash:
         commands:
             - fab --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
