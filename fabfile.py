@@ -8,11 +8,10 @@ assert env.password
 
 def build_local():
     local('docker-compose run app go build -v')
-    local('mv app/picloud ./application')
 
 
 def copy_app():
-    local('scp application {0}@{1}:/home/{0}'.format(env.user, env.hosts[0]))
+    local('scp picloud {0}@{1}:/home/{0}'.format(env.user, env.hosts[0]))
 
 
 def stop_service():
@@ -25,11 +24,15 @@ def remove_old_app():
 
 
 def rename_new_app():
-    run('mv application pi-cloud')
+    run('mv picloud pi-cloud')
 
 
 def start_service():
     sudo('service pi-cloud start')
+
+
+def remove_local():
+    local('rm picloud')
 
 
 def deploy():
@@ -43,3 +46,4 @@ def deploy():
 def build_deploy():
     build_local()
     deploy()
+    remove_local()
