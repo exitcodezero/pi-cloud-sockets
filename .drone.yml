@@ -1,6 +1,9 @@
 build:
-  commands:
-      - apt-get update
-      - apt-get -y install fabric
-      - go get
-      - go build
+    image: golang
+    volumes:
+        - ./app:/go/src/app
+    commands:
+        - apt-get update
+        - apt-get -y install fabric
+        - go get
+        - go build
