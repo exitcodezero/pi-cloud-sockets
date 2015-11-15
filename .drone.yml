@@ -6,4 +6,8 @@ build:
 deploy:
     fabric:
         image: projectweekend/drone-fabric
-        commands: --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
+        commands:
+            - --user=$$SUDO_USER
+            - --password=$$SUDO_PASSWORD
+            - --hosts=$$FAB_HOST
+            - deploy
