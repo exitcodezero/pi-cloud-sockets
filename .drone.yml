@@ -4,6 +4,7 @@ build:
         - go get
         - go build
 deploy:
-    bash:
-        script:
-            - echo hello
+    fabric:
+        image: projectweekend/drone-fabric
+        commands:
+            - --user=$$SUDO_USER --password=$$SUDO_PASSWORD --hosts=$$FAB_HOST deploy
