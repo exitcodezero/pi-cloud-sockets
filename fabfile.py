@@ -1,9 +1,4 @@
-import os
 from fabric.api import env, run, local, sudo, settings
-
-
-env.password = os.getenv('SUDO_PASSWORD', None)
-assert env.password
 
 
 def build_local():
