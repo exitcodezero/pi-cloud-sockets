@@ -9,14 +9,16 @@ import (
 // and subscribed events
 type Connection struct {
 	ID         string
+	IPAddress  string
 	Subscribed []string
 	Out        chan message.SocketMessage
 }
 
 // NewConnection constructs a new Connection
-func NewConnection() Connection {
+func NewConnection(ipAddress string) Connection {
 	hc := Connection{}
 	hc.ID = uuid.New()
+	hc.IPAddress = ipAddress
 	hc.Out = make(chan message.SocketMessage)
 	return hc
 }

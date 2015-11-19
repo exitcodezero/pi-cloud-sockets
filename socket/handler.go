@@ -29,7 +29,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer socket.Close()
 
-	c := hub.NewConnection()
+	c := hub.NewConnection(socket.RemoteAddr().String())
 	defer hub.UnsubscribeAll(c)
 
 	go writeSocket(socket, c)
