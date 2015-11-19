@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/exitcodezero/picloud/config"
-	"github.com/exitcodezero/picloud/routes"
 	"flag"
 	"fmt"
+	"github.com/exitcodezero/picloud/config"
+	"github.com/exitcodezero/picloud/routes"
 	"log"
 	"net/http"
 	"os"
