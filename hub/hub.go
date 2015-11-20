@@ -23,6 +23,12 @@ func init() {
 	go processSubscriptions(publish, subscribed)
 }
 
+// Info returns an InfoMessage
+func Info() infoMessage {
+	im := infoMessage{}
+	return im
+}
+
 // Publish adds a SocketMessage to the Publish channel
 func Publish(m message.SocketMessage) {
 	publish <- m
