@@ -23,6 +23,38 @@ func init() {
 	go processSubscriptions(publish, subscribed)
 }
 
+func connectionInfoSlice(connections []Connection) []connectionInfo {
+	var i []connectionInfo
+	for _, c := range connections {
+		cInfo := connectionInfo{
+			IPAddress:   c.IPAddress,
+			ConnectedAt: c.ConnectedAt,
+		}
+		i = append(i, cInfo)
+	}
+	return i
+}
+
+func eventInfoSlice() []eventInfo {
+	var e []eventInfo
+	for k, connections := range subscribed {
+		ev := eventInfo{
+			Name:        k,
+			Connections: connectionInfoSlice(connections),
+		}
+		e = append(e, ev)
+	}
+	return e
+}
+
+// Info returns an InfoMessage
+func Info() infoMessage {
+	im := infoMessage{
+		Events: eventInfoSlice(),
+	}
+	return im
+}
+
 // Publish adds a SocketMessage to the Publish channel
 func Publish(m message.SocketMessage) {
 	publish <- m
