@@ -6,7 +6,6 @@ import (
 
 type connectionInfo struct {
     IPAddress string `json:"ip_address"`
-    ConnectedAt time.Time `json:"connected_at"`
 }
 
 type eventInfo struct {
