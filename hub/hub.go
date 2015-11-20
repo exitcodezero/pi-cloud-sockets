@@ -28,6 +28,7 @@ func connectionInfoSlice(connections []Connection) []connectionInfo  {
 	for _, c := range connections {
 		cInfo := connectionInfo{
 			IPAddress: c.IPAddress,
+			ConnectedAt: c.ConnectedAt,
 		}
 		i = append(i, cInfo)
 	}
