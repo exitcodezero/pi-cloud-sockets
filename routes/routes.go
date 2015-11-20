@@ -1,9 +1,9 @@
 package routes
 
 import (
+	"github.com/exitcodezero/picloud/info"
 	"github.com/exitcodezero/picloud/middleware"
 	"github.com/exitcodezero/picloud/socket"
-	"github.com/exitcodezero/picloud/info"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"

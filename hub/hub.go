@@ -23,11 +23,11 @@ func init() {
 	go processSubscriptions(publish, subscribed)
 }
 
-func connectionInfoSlice(connections []Connection) []connectionInfo  {
+func connectionInfoSlice(connections []Connection) []connectionInfo {
 	var i []connectionInfo
 	for _, c := range connections {
 		cInfo := connectionInfo{
-			IPAddress: c.IPAddress,
+			IPAddress:   c.IPAddress,
 			ConnectedAt: c.ConnectedAt,
 		}
 		i = append(i, cInfo)
@@ -39,7 +39,7 @@ func eventInfoSlice() []eventInfo {
 	var e []eventInfo
 	for k, connections := range subscribed {
 		ev := eventInfo{
-			Name: k,
+			Name:        k,
 			Connections: connectionInfoSlice(connections),
 		}
 		e = append(e, ev)

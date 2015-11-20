@@ -9,11 +9,11 @@ import (
 // Connection maintains info about the connected device
 // and subscribed events
 type Connection struct {
-	ID         string
-	IPAddress  string
+	ID          string
+	IPAddress   string
 	ConnectedAt time.Time
-	Subscribed []string
-	Out        chan message.SocketMessage
+	Subscribed  []string
+	Out         chan message.SocketMessage
 }
 
 // NewConnection constructs a new Connection
