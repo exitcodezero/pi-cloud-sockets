@@ -30,3 +30,8 @@ func SocketHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+// PageHandler handles websocket connections at /info
+func PageHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "pages/info.html")
+}
