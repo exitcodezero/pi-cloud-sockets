@@ -16,6 +16,9 @@ var KeyFile = os.Getenv("KEY_FILE")
 // CertFile is the env variable CERT_FILE
 var CertFile = os.Getenv("CERT_FILE")
 
+// CertFile is the env variable CERT_FILE
+var EnableInfoSocket = os.Getenv("ENABLE_INFO_SOCKET")
+
 // Port is the env variable PORT
 var Port string
 

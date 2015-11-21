@@ -13,8 +13,8 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-// Handler handles websocket connections at /info
-func Handler(w http.ResponseWriter, r *http.Request) {
+// SocketHandler handles websocket connections at /info
+func SocketHandler(w http.ResponseWriter, r *http.Request) {
 	socket, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		panic(err)
