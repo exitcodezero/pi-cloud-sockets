@@ -4,81 +4,109 @@ import (
 	"github.com/exitcodezero/picloud/message"
 )
 
-var publish chan message.SocketMessage
+type manager struct {
+	ToPublish chan message.SocketMessage
+	Subscribed map[string][]*Connection
+	Connections []*Connection
+}
 
-var subscribed map[string][]Connection
-
-func processSubscriptions(pub chan message.SocketMessage, sub map[string][]Connection) {
+func (m *manager) ProcessSubscriptions() {
 	for {
-		message := <-pub
-		for _, c := range sub[message.Event] {
+		message := <- m.ToPublish
+		for _, c := range m.Subscribed[message.Event] {
 			c.Out <- message
 		}
 	}
 }
 
-func init() {
-	publish = make(chan message.SocketMessage)
-	subscribed = make(map[string][]Connection)
-	go processSubscriptions(publish, subscribed)
+func (m *manager) RegisterConnection(c *Connection) {
+	m.Connections = append(m.Connections, c)
 }
 
-func connectionInfoSlice(connections []Connection) []connectionInfo {
-	var i []connectionInfo
-	for _, c := range connections {
-		cInfo := connectionInfo{
-			IPAddress:   c.IPAddress,
-			ConnectedAt: c.ConnectedAt,
-		}
-		i = append(i, cInfo)
+func (m *manager) UnregisterConnection(c *Connection) {
+	i := findConnectionIndex(c, m.Connections)
+	if i != -1 {
+		m.Connections = append(m.Connections[:i], m.Connections[i+1:]...)
 	}
-	return i
+	m.Connections = append(m.Connections, c)
 }
 
-func eventInfoSlice() []eventInfo {
-	var e []eventInfo
-	for k, connections := range subscribed {
-		ev := eventInfo{
-			Name:        k,
-			Connections: connectionInfoSlice(connections),
+func (m *manager) Cleanup(c *Connection) {
+	m.UnregisterConnection(c)
+	m.UnsubscribeAll(c)
+}
+
+func (m *manager) Publish(msg message.SocketMessage) {
+	m.ToPublish <- msg
+}
+
+func (m *manager) Subscribe(event string, c *Connection) {
+	i := findConnectionIndex(c, m.Subscribed[event])
+	if i == -1 {
+		m.Subscribed[event] = append(m.Subscribed[event], c)
+	}
+}
+
+func (m *manager) Unsubscribe(event string, c *Connection) {
+	i := findConnectionIndex(c, m.Subscribed[event])
+	if i != -1 {
+		m.Subscribed[event] = append(m.Subscribed[event][:i], m.Subscribed[event][i+1:]...)
+	}
+}
+
+func (m *manager) UnsubscribeAll(c *Connection) {
+	for e := range m.Subscribed {
+		m.Unsubscribe(e, c)
+	}
+}
+
+func (m *manager) Info() infoMessage {
+	im := infoMessage{
+		Subscriptions: m.eventInfoSlice(),
+		AllConnections: m.connectionInfoSlice(),
+	}
+	return im
+}
+
+func (m *manager) eventInfoSlice() []eventInfo {
+	e := make([]eventInfo, 0)
+	for k, connections := range m.Subscribed {
+		ev := eventInfo{}
+		ev.Name = k
+		for _, c := range connections {
+			cInfo := connectionInfo{
+				IPAddress:   c.IPAddress,
+				ConnectedAt: c.ConnectedAt,
+			}
+			ev.Connections = append(ev.Connections, cInfo)
 		}
 		e = append(e, ev)
 	}
 	return e
 }
 
-// Info returns an InfoMessage
-func Info() infoMessage {
-	im := infoMessage{
-		Events: eventInfoSlice(),
+func (m *manager) connectionInfoSlice() []connectionInfo {
+	var ci []connectionInfo
+	for _, c := range m.Connections {
+		cInfo := connectionInfo{
+			IPAddress:   c.IPAddress,
+			ConnectedAt: c.ConnectedAt,
+		}
+		ci = append(ci, cInfo)
 	}
-	return im
+	return ci
 }
 
-// Publish adds a SocketMessage to the Publish channel
-func Publish(m message.SocketMessage) {
-	publish <- m
-}
+// Manager controls all publish/subscribe actions for connections
+var Manager manager
 
-// Subscribe adds a Connection to an array for the event key
-func Subscribe(event string, c Connection) {
-	i := findConnectionIndex(c, subscribed[event])
-	if i == -1 {
-		subscribed[event] = append(subscribed[event], c)
-	}
-}
+func init() {
 
-// Unsubscribe removes a Connection from the array for the event key
-func Unsubscribe(event string, c Connection) {
-	i := findConnectionIndex(c, subscribed[event])
-	if i != -1 {
-		subscribed[event] = append(subscribed[event][:i], subscribed[event][i+1:]...)
+	Manager = manager{
+		ToPublish: make(chan message.SocketMessage),
+		Subscribed: make(map[string][]*Connection),
+		Connections: make([]*Connection, 0),
 	}
-}
 
-// UnsubscribeAll removes a Connection from all event arrays
-func UnsubscribeAll(c Connection) {
-	for e := range subscribed {
-		Unsubscribe(e, c)
-	}
+	go Manager.ProcessSubscriptions()
 }

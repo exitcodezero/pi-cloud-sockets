@@ -22,7 +22,7 @@ func SocketHandler(w http.ResponseWriter, r *http.Request) {
 	defer socket.Close()
 
 	for now := range time.Tick(5 * time.Second) {
-		im := hub.Info()
+		im := hub.Manager.Info()
 		im.CreatedAt = now.UTC()
 		err := socket.WriteJSON(&im)
 		if err != nil {

@@ -14,7 +14,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func writeSocket(socket *websocket.Conn, c hub.Connection) {
+func writeSocket(socket *websocket.Conn, c *hub.Connection) {
 	for {
 		m := <-c.Out
 		socket.WriteJSON(&m)
@@ -30,9 +30,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	defer socket.Close()
 
 	c := hub.NewConnection(socket.RemoteAddr().String())
-	defer hub.UnsubscribeAll(c)
+	hub.Manager.RegisterConnection(&c)
+	defer hub.Manager.Cleanup(&c)
 
-	go writeSocket(socket, c)
+	go writeSocket(socket, &c)
 
 	for {
 		m := message.SocketMessage{}
@@ -45,13 +46,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 		switch m.Action {
 		case "publish":
-			hub.Publish(m)
+			hub.Manager.Publish(m)
 		case "subscribe":
-			hub.Subscribe(m.Event, c)
+			hub.Manager.Subscribe(m.Event, &c)
 		case "unsubscribe":
-			hub.Unsubscribe(m.Event, c)
+			hub.Manager.Unsubscribe(m.Event, &c)
 		case "unsubscribe:all":
-			hub.UnsubscribeAll(c)
+			hub.Manager.UnsubscribeAll(&c)
 		}
 	}
 }
