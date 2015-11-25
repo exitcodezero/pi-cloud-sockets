@@ -32,10 +32,10 @@ Websocket
 
 ### Websocket pub/sub route
 
-This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter.
+This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. Additionally, each connected client must send a query parameter `clientName`.
 
 ```
-/connect
+/connect?clientName=Something
 ```
 
 #### Subscribe to an event

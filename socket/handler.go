@@ -23,18 +23,30 @@ func writeSocket(socket *websocket.Conn, c *hub.Connection) {
 
 // Handler handles websocket connections at /connect
 func Handler(w http.ResponseWriter, r *http.Request) {
+
+	// Get the "clientName" of the connection from a query parameter
+	queryParams := r.URL.Query()
+	if len(queryParams["clientName"]) < 1 {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	// Upgrade the request
 	socket, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		panic(err)
 	}
 	defer socket.Close()
 
-	c := hub.NewConnection(socket.RemoteAddr().String())
+	// Create a Connection instance
+	c := hub.NewConnection(socket.RemoteAddr().String(), queryParams["clientName"][0])
 	hub.Manager.RegisterConnection(&c)
 	defer hub.Manager.Cleanup(&c)
 
+	// Start pushing outbound messages from a goroutine
 	go writeSocket(socket, &c)
 
+	// Handle inbound messages
 	for {
 		m := message.SocketMessage{}
 		m.CreatedAt = time.Now().UTC()
