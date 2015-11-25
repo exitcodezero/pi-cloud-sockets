@@ -15,6 +15,7 @@ type eventInfo struct {
 }
 
 type infoMessage struct {
-	Events    []eventInfo `json:"events"`
+	Subscriptions    []eventInfo `json:"subscriptions"`
+	AllConnections []connectionInfo `json:"all_connections"`
 	CreatedAt time.Time   `json:"created_at"`
 }

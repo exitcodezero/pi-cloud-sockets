@@ -30,7 +30,7 @@ Environment Variables
 Websocket
 ====================
 
-### Websocket route
+### Websocket pub/sub route
 
 This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter.
 
@@ -38,7 +38,7 @@ This route requires authentication with an API key passed in via the `X-API-Key`
 /connect
 ```
 
-### Subscribe to an event
+#### Subscribe to an event
 
 Send the following JSON message to **subscribe** to an event. After subscribing, your connection will receive data from any other connection that publishes that event.
 
@@ -49,7 +49,7 @@ Send the following JSON message to **subscribe** to an event. After subscribing,
 }
 ```
 
-### Publish data for an event
+#### Publish data for an event
 
 Send the following JSON message to **publish** data for an event. Any connection that has subscribed to this event will receive this JSON message.
 
@@ -58,6 +58,42 @@ Send the following JSON message to **publish** data for an event. Any connection
     "action": "publish",
     "event": "whatever",
     "data": "howdy"
+}
+```
+
+
+### Websocket info route
+
+This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. This socket does not handle any incoming messages. It pushes a JSON message every 5 seconds with info about the clients connected to the server. This is used to run the [picloud-info-web](https://github.com/exitcodezero/picloud-info-web) app.
+
+```
+/socket/info
+```
+
+```json
+{
+    "subscriptions": [
+        {
+            "name": "test",
+            "connections": [        
+                {   
+                    "ip_address": "192.168.99.1:62178",     
+                    "connected_at": "2015-11-25T03:40:13.433493056Z"
+                }
+            ]
+        }
+    ],
+    "all_connections": [
+        {
+            "ip_address": "192.168.99.1:62178",
+            "connected_at": "2015-11-25T03:40:13.433493056Z"
+        },
+        {
+            "ip_address":"192.168.99.1:62184",
+            "connected_at":"2015-11-25T03:40:31.147654724Z"
+        }
+    ],
+    "created_at":"2015-11-25T03:40:39.889395863Z"
 }
 ```
 
