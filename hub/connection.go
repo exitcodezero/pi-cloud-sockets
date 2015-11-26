@@ -10,6 +10,7 @@ import (
 // and subscribed events
 type Connection struct {
 	ID          string
+	ClientName 	string
 	IPAddress   string
 	ConnectedAt time.Time
 	Subscribed  []string
@@ -17,11 +18,12 @@ type Connection struct {
 }
 
 // NewConnection constructs a new Connection
-func NewConnection(ipAddress string) Connection {
+func NewConnection(ipAddress string, clientName string) Connection {
 	hc := Connection{}
 	hc.ID = uuid.New()
-	hc.ConnectedAt = time.Now().UTC()
+	hc.ClientName = clientName
 	hc.IPAddress = ipAddress
+	hc.ConnectedAt = time.Now().UTC()
 	hc.Out = make(chan message.SocketMessage)
 	return hc
 }

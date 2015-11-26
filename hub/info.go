@@ -5,6 +5,7 @@ import (
 )
 
 type connectionInfo struct {
+	ClientName	string `json:"client_name"`
 	IPAddress   string    `json:"ip_address"`
 	ConnectedAt time.Time `json:"connected_at"`
 }

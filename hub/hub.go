@@ -75,6 +75,7 @@ func (m *manager) eventInfoSlice() []eventInfo {
 		ev.Name = k
 		for _, c := range connections {
 			cInfo := connectionInfo{
+				ClientName:	c.ClientName,
 				IPAddress:   c.IPAddress,
 				ConnectedAt: c.ConnectedAt,
 			}
@@ -89,6 +90,7 @@ func (m *manager) connectionInfoSlice() []connectionInfo {
 	var ci []connectionInfo
 	for _, c := range m.Connections {
 		cInfo := connectionInfo{
+			ClientName:	c.ClientName,
 			IPAddress:   c.IPAddress,
 			ConnectedAt: c.ConnectedAt,
 		}
