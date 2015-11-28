@@ -5,14 +5,14 @@ import (
 )
 
 type manager struct {
-	ToPublish chan message.SocketMessage
-	Subscribed map[string][]*Connection
+	ToPublish   chan message.SocketMessage
+	Subscribed  map[string][]*Connection
 	Connections []*Connection
 }
 
 func (m *manager) ProcessSubscriptions() {
 	for {
-		message := <- m.ToPublish
+		message := <-m.ToPublish
 		for _, c := range m.Subscribed[message.Event] {
 			c.Out <- message
 		}
@@ -62,7 +62,7 @@ func (m *manager) UnsubscribeAll(c *Connection) {
 
 func (m *manager) Info() infoMessage {
 	im := infoMessage{
-		Subscriptions: m.eventInfoSlice(),
+		Subscriptions:  m.eventInfoSlice(),
 		AllConnections: m.connectionInfoSlice(),
 	}
 	return im
@@ -75,7 +75,7 @@ func (m *manager) eventInfoSlice() []eventInfo {
 		ev.Name = k
 		for _, c := range connections {
 			cInfo := connectionInfo{
-				ClientName:	c.ClientName,
+				ClientName:  c.ClientName,
 				IPAddress:   c.IPAddress,
 				ConnectedAt: c.ConnectedAt,
 			}
@@ -90,7 +90,7 @@ func (m *manager) connectionInfoSlice() []connectionInfo {
 	var ci []connectionInfo
 	for _, c := range m.Connections {
 		cInfo := connectionInfo{
-			ClientName:	c.ClientName,
+			ClientName:  c.ClientName,
 			IPAddress:   c.IPAddress,
 			ConnectedAt: c.ConnectedAt,
 		}
@@ -105,8 +105,8 @@ var Manager manager
 func init() {
 
 	Manager = manager{
-		ToPublish: make(chan message.SocketMessage),
-		Subscribed: make(map[string][]*Connection),
+		ToPublish:   make(chan message.SocketMessage),
+		Subscribed:  make(map[string][]*Connection),
 		Connections: make([]*Connection, 0),
 	}
 

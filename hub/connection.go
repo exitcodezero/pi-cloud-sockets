@@ -10,7 +10,7 @@ import (
 // and subscribed events
 type Connection struct {
 	ID          string
-	ClientName 	string
+	ClientName  string
 	IPAddress   string
 	ConnectedAt time.Time
 	Subscribed  []string
