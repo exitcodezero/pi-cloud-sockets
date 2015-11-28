@@ -5,6 +5,7 @@ import (
 	"github.com/exitcodezero/picloud/info"
 	"github.com/exitcodezero/picloud/middleware"
 	"github.com/exitcodezero/picloud/socket"
+	"github.com/exitcodezero/picloud/publish"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
@@ -22,9 +23,14 @@ func Router() *mux.Router {
 		"GET": common.ThenFunc(socket.Handler),
 	}
 
+	pubHttp := handlers.MethodHandler{
+		"POST": common.ThenFunc(publish.Handler),
+	}
+
 	router := mux.NewRouter()
 
 	router.Handle("/connect", pubSubSocket)
+	router.Handle("/publish", pubHttp)
 
 	if config.EnableInfoSocket != "" {
 		router.Handle("/socket/info", infoSocket)
