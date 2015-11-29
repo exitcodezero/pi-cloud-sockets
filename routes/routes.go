@@ -34,7 +34,7 @@ func Router() *mux.Router {
 	router.Handle("/subscribe", subSocket)
 
 	if config.EnableInfoSocket != "" {
-		router.Handle("/socket/info", infoSocket)
+		router.Handle("/info", infoSocket)
 	}
 
 	return router

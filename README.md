@@ -55,7 +55,7 @@ Send the following JSON message to **subscribe** to an event. After subscribing,
 This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. This socket does not handle any incoming messages. It pushes a JSON message every 5 seconds with info about the clients connected to the server. This is used to run the [picloud-info-web](https://github.com/exitcodezero/picloud-info-web) app.
 
 ```
-/socket/info
+/info
 ```
 
 ```json
