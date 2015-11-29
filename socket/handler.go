@@ -26,6 +26,7 @@ func writeSocket(socket *websocket.Conn, c *hub.Connection) {
 func Handler(w http.ResponseWriter, r *http.Request) {
 
 	clientName, _ := context.Get(r, "ClientName").(string)
+	context.Clear(r)
 
 	// Upgrade the request
 	socket, err := upgrader.Upgrade(w, r, nil)
