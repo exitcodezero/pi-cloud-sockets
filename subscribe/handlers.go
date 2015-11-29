@@ -1,8 +1,9 @@
-package socket
+package subscribe
 
 import (
 	"github.com/exitcodezero/picloud/hub"
 	"github.com/exitcodezero/picloud/message"
+	"github.com/gorilla/context"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"time"
@@ -24,12 +25,8 @@ func writeSocket(socket *websocket.Conn, c *hub.Connection) {
 // Handler handles websocket connections at /connect
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	// Get the "clientName" of the connection from a query parameter
-	queryParams := r.URL.Query()
-	if len(queryParams["clientName"]) < 1 {
-		http.Error(w, "Bad request", http.StatusBadRequest)
-		return
-	}
+	clientName, _ := context.Get(r, "ClientName").(string)
+	context.Clear(r)
 
 	// Upgrade the request
 	socket, err := upgrader.Upgrade(w, r, nil)
@@ -39,14 +36,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	defer socket.Close()
 
 	// Create a Connection instance
-	c := hub.NewConnection(socket.RemoteAddr().String(), queryParams["clientName"][0])
+	c := hub.NewConnection(socket.RemoteAddr().String(), clientName)
 	hub.Manager.RegisterConnection(&c)
 	defer hub.Manager.Cleanup(&c)
 
 	// Start pushing outbound messages from a goroutine
 	go writeSocket(socket, &c)
 
-	// Handle inbound messages
+	// Handle inbound subscription messages
 	for {
 		m := message.SocketMessage{}
 		m.CreatedAt = time.Now().UTC()
@@ -57,8 +54,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		switch m.Action {
-		case "publish":
-			hub.Manager.Publish(m)
 		case "subscribe":
 			hub.Manager.Subscribe(m.Event, &c)
 		case "unsubscribe":

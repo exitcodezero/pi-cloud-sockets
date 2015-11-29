@@ -30,12 +30,12 @@ Environment Variables
 Websocket
 ====================
 
-### Websocket pub/sub route
+### Websocket subscription route
 
 This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. Additionally, each connected client must send a query parameter `clientName`.
 
 ```
-/connect?clientName=Something
+/subscribe?clientName=Something
 ```
 
 #### Subscribe to an event
@@ -49,25 +49,13 @@ Send the following JSON message to **subscribe** to an event. After subscribing,
 }
 ```
 
-#### Publish data for an event
-
-Send the following JSON message to **publish** data for an event. Any connection that has subscribed to this event will receive this JSON message.
-
-```json
-{
-    "action": "publish",
-    "event": "whatever",
-    "data": "howdy"
-}
-```
-
 
 ### Websocket info route
 
 This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. This socket does not handle any incoming messages. It pushes a JSON message every 5 seconds with info about the clients connected to the server. This is used to run the [picloud-info-web](https://github.com/exitcodezero/picloud-info-web) app.
 
 ```
-/socket/info
+/info
 ```
 
 ```json
@@ -104,9 +92,11 @@ HTTP Routes
 
 ### Publish data
 
+Each request must send a query parameter `clientName` or a header `X-API-Client-Name`.
+
 **POST:**
 ```
-/publish
+/publish?clientName=Something
 ```
 
 **Body:**

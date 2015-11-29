@@ -8,19 +8,17 @@ import (
 // Authentication validates the API Key passed in via the "X-API-Key" header or a query param "apiKey"
 func Authentication(n http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		queryParams := r.URL.Query()
-
-		apiKeyFromHeader := r.Header.Get("X-API-Key")
-		apiKeyFromQuery := ""
-		if len(queryParams["apiKey"]) > 0 {
-			apiKeyFromQuery = queryParams["apiKey"][0]
+		apiKey := r.Header.Get("X-API-Key")
+		if apiKey == "" {
+			apiKey = r.URL.Query().Get("apiKey")
 		}
 
-		if apiKeyFromHeader == config.APIKey || apiKeyFromQuery == config.APIKey {
-			n.ServeHTTP(w, r)
+		if apiKey != config.APIKey {
+			http.Error(w, "Invalid API Key", http.StatusUnauthorized)
 			return
 		}
-		http.Error(w, "Invalid API Key", http.StatusUnauthorized)
+
+		n.ServeHTTP(w, r)
 	}
 	return http.HandlerFunc(fn)
 }
