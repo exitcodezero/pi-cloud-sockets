@@ -23,14 +23,14 @@ func Router() *mux.Router {
 		"GET": common.ThenFunc(socket.Handler),
 	}
 
-	pubHttp := handlers.MethodHandler{
+	pubHTTP := handlers.MethodHandler{
 		"POST": common.ThenFunc(publish.Handler),
 	}
 
 	router := mux.NewRouter()
 
 	router.Handle("/connect", pubSubSocket)
-	router.Handle("/publish", pubHttp)
+	router.Handle("/publish", pubHTTP)
 
 	if config.EnableInfoSocket != "" {
 		router.Handle("/socket/info", infoSocket)
