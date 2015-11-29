@@ -25,7 +25,8 @@ func Router() *mux.Router {
 	}
 
 	pubHTTP := handlers.MethodHandler{
-		"POST": common.ThenFunc(publish.Handler),
+		"GET": common.ThenFunc(publish.HandlerSocket),
+		"POST": common.ThenFunc(publish.HandlerHTTP),
 	}
 
 	router := mux.NewRouter()
