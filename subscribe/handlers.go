@@ -1,4 +1,4 @@
-package socket
+package subscribe
 
 import (
 	"github.com/exitcodezero/picloud/hub"
@@ -43,7 +43,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	// Start pushing outbound messages from a goroutine
 	go writeSocket(socket, &c)
 
-	// Handle inbound messages
+	// Handle inbound subscription messages
 	for {
 		m := message.SocketMessage{}
 		m.CreatedAt = time.Now().UTC()
@@ -54,8 +54,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		switch m.Action {
-		case "publish":
-			hub.Manager.Publish(m)
 		case "subscribe":
 			hub.Manager.Subscribe(m.Event, &c)
 		case "unsubscribe":
