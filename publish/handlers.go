@@ -41,7 +41,6 @@ func HandlerHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
@@ -68,7 +67,7 @@ func HandlerSocket(w http.ResponseWriter, r *http.Request) {
 	// Handle inbound publish messages
 	for {
 		m := message.SocketMessage{
-			Action: "publish",
+			Action:    "publish",
 			CreatedAt: time.Now().UTC(),
 		}
 
