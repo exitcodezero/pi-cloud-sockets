@@ -13,10 +13,11 @@ import (
 
 // Router setups all the API routes and middleware
 func Router() *mux.Router {
-	common := alice.New(middleware.Authentication, middleware.RecoverHandler)
+	common := alice.New(middleware.Authentication, middleware.ClientName, middleware.RecoverHandler)
+	authOnly := alice.New(middleware.Authentication, middleware.RecoverHandler)
 
 	infoSocket := handlers.MethodHandler{
-		"GET": common.ThenFunc(info.SocketHandler),
+		"GET": authOnly.ThenFunc(info.SocketHandler),
 	}
 
 	pubSubSocket := handlers.MethodHandler{
