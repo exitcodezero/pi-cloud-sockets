@@ -3,6 +3,7 @@ package socket
 import (
 	"github.com/exitcodezero/picloud/hub"
 	"github.com/exitcodezero/picloud/message"
+	"github.com/gorilla/context"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"time"
@@ -24,12 +25,7 @@ func writeSocket(socket *websocket.Conn, c *hub.Connection) {
 // Handler handles websocket connections at /connect
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	// Get the "clientName" of the connection from a query parameter
-	queryParams := r.URL.Query()
-	if len(queryParams["clientName"]) < 1 {
-		http.Error(w, "Bad request", http.StatusBadRequest)
-		return
-	}
+	clientName, _ := context.Get(r, "ClientName").(string)
 
 	// Upgrade the request
 	socket, err := upgrader.Upgrade(w, r, nil)
@@ -39,7 +35,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	defer socket.Close()
 
 	// Create a Connection instance
-	c := hub.NewConnection(socket.RemoteAddr().String(), queryParams["clientName"][0])
+	c := hub.NewConnection(socket.RemoteAddr().String(), clientName)
 	hub.Manager.RegisterConnection(&c)
 	defer hub.Manager.Cleanup(&c)
 
