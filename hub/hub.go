@@ -28,7 +28,6 @@ func (m *manager) UnregisterConnection(c *Connection) {
 	if i != -1 {
 		m.Connections = append(m.Connections[:i], m.Connections[i+1:]...)
 	}
-	m.Connections = append(m.Connections, c)
 }
 
 func (m *manager) Cleanup(c *Connection) {
