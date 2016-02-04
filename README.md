@@ -49,6 +49,21 @@ Send the following JSON message to **subscribe** to an event. After subscribing,
 }
 ```
 
+### Websocket publish route
+
+This route requires authentication with an API key passed in via the `X-API-Key` header or `apiKey` query parameter. Additionally, each connected client must send a query parameter `clientName`.
+
+```
+/publish?clientName=Something
+```
+
+```json
+{
+    "event": "whatever",
+    "data": "howdy"
+}
+```
+
 
 ### Websocket info route
 
